@@ -9,7 +9,7 @@ connectDB();
 
 // Middleware untuk mengizinkan CORS dan parsing JSON
 const corsOptions = {
-    origin: 'https://tbberkah-vrmx.vercel.app',
+    origin: 'https://tbberkah-twqx.vercel.app',
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
