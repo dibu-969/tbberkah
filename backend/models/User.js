@@ -5,15 +5,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true
+    jenis: { // New property
+        type: String
     },
-    tanggal: {
-        type: Date,
-        default: Date.now
+    harga: { // New property
+        type: Number
+    },
+    image_url: { // New property
+        type: String
     }
-});
+}, { collection: 'PRODUK' }); // This line is crucial
 
 module.exports = mongoose.model('User', UserSchema);
