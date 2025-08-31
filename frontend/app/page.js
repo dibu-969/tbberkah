@@ -14,7 +14,8 @@ export default function HomePage() {
         // Perhatian: Gunakan URL lokal untuk pengembangan
         const API_URL = 'https://tbberkah-vrmx.vercel.app';
         const response = await axios.get(`${API_URL}/api/users`);
-setProducts(response.data);
+      
+        setProducts(response.data);
         setProducts(response.data);
       } catch (err) {
         setError('Gagal mengambil data produk.');
