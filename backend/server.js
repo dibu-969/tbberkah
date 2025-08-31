@@ -8,12 +8,11 @@ const app = express();
 connectDB();
 
 // Middleware untuk mengizinkan CORS dan parsing JSON
-const corsOptions = {
-    origin: 'https://tbberkah-twqx.vercel.app',
-    optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
+
+// Tangani permintaan preflight (OPTIONS)
+app.options('*', cors()); // Tambahkan baris ini
 
 // Definisikan rute API
 app.use('/api/users', require('./routes/users'));
