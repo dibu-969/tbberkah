@@ -1,9 +1,11 @@
+// app/produk/[id]/page.js
+
 'use client'; 
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-// Correct the path for the CSS file
-import './DetailProduk.css'; 
+import './DetailProduk.css'; // Path CSS mungkin perlu disesuaikan
+import axios from 'axios';
 
 function DetailProduk() {
   const { id } = useParams();
@@ -11,23 +13,29 @@ function DetailProduk() {
   const [selectedMacam, setSelectedMacam] = useState(null);
   const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const API_URL = 'https://tbberkah-vrmx.vercel.app';
-        const response = await axios.get(`${API_URL}/api/produk`);
+  useEffect(() => {
+    if (!id) return;
 
-        setProducts(response.data);
+    const fetchProduk = async () => {
+      try {
+        // Gunakan variabel lingkungan dari .env.local
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const res = await axios.get(`${API_URL}/api/produk/${id}`);
+        const data = res.data;
+        
+        setProduk(data);
+        if (data.macam && data.macam.length > 0) {
+          setSelectedMacam(data.macam[0]);
+        }
       } catch (err) {
-        setError('Gagal mengambil data produk.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
-  }, []);
+    fetchProduk();
+  }, [id]);
 
   if (loading) {
     return <p>Loading...</p>;
