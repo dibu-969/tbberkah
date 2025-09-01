@@ -1,60 +1,97 @@
-'use client';
+'use client'; // This tells Next.js the component runs on the client
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Link from 'next/link'; // Correct Link for Next.js
+import axios from 'axios'; // Import Axios
+import './App.css'; // Assuming you have this CSS file
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [jenis, setJenis] = useState('Semua');
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Perhatian: Gunakan URL lokal untuk pengembangan
         const API_URL = 'https://tbberkah-vrmx.vercel.app';
         const response = await axios.get(`${API_URL}/api/users`);
-      
-        setProducts(response.data);
+
         setProducts(response.data);
       } catch (err) {
         setError('Gagal mengambil data produk.');
         console.error(err);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
-  if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '20px' }}>Memuat data...</div>;
+  // Filter products based on name and category
+  const filteredProducts = products.filter((item) => {
+    // Use lowercase properties to match the database
+    const matchesName = item.nama?.toLowerCase().includes(search.toLowerCase());
+    const matchesJenis = jenis === 'Semua' || item.jenis === jenis;
+    return matchesName && matchesJenis;
+  });
+
+  // Get a list of unique categories from the data
+  const jenisList = ['Semua', ...new Set(products.map((item) => item.jenis))];
+
+  if (loading) {
+    return <p className="loading">Memuat data...</p>;
   }
 
   if (error) {
-    return <div style={{ textAlign: 'center', padding: '20px', color: 'red' }}>{error}</div>;
+    return <p className="error">{error}</p>;
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Daftar Produk</h1>
-      {products.length > 0 ? (
-        <ul>
-          {products.map((product) => (
-            <li key={product._id} style={{ marginBottom: '20px' }}>
-              <strong>Nama:</strong> {product.nama} <br />
-              <strong>Jenis:</strong> {product.jenis} <br />
-              <strong>Harga:</strong> Rp{product.harga} <br />
-              {product.image_url && (
-                <img src={product.image_url} alt={product.nama} style={{ maxWidth: '100px' }} />
-              )}
-            </li>
+    <div className="home-container">
+      {/* Search and Filter */}
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Cari produk berdasarkan nama..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="search-bar"
+        />
+        <select
+          value={jenis}
+          onChange={(e) => setJenis(e.target.value)}
+          className="filter-select"
+        >
+          {jenisList.map((j, index) => (
+            <option key={index} value={j}>
+              {j}
+            </option>
           ))}
-        </ul>
-      ) : (
-        <p>Tidak ada produk ditemukan.</p>
-      )}
+        </select>
+      </div>
+
+      {/* Product Grid */}
+      <div className="produk-grid">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((item) => (
+            <Link key={item._id} href={`/produk/${item._id}`} className="produk-card-link">
+              <div className="produk-card">
+                <img src={item.image_url} alt={item.nama} className="produk-img" />
+                <div className="produk-info">
+                  <h3 className="produk-nama">{item.nama}</h3>
+                  <p className="produk-harga">Rp {item.harga?.toLocaleString()}</p>
+                  <span className="produk-detail">Klik untuk lihat detail</span>
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <p className="no-result">Produk tidak ditemukan</p>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,121 @@
+/* ====== Container Utama ====== */
+.home-container {
+  max-width: 1800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+/* ====== Filter (Search + Dropdown) ====== */
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar,
+.filter-select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus,
+.filter-select:focus {
+  border-color: #4f46e5; /* ungu */
+  box-shadow: 0 0 5px rgba(79, 70, 229, 0.4);
+}
+
+/* ====== Grid Produk ====== */
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* default: 2 kolom */
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .produk-grid {
+    grid-template-columns: repeat(3, 1fr); /* tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .produk-grid {
+    grid-template-columns: repeat(6, 1fr); /* desktop jadi 6 kolom */
+  }
+}
+
+/* ====== Card Produk ====== */
+.produk-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.produk-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.produk-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Gambar Produk */
+.produk-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Info Produk */
+.produk-info {
+  padding: 12px;
+  text-align: center;
+}
+
+.produk-nama {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.produk-harga {
+  font-size: 16px;
+  color: #16a34a; /* hijau */
+  margin-bottom: 8px;
+}
+
+.produk-detail {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ====== Loading & Error ====== */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #4f46e5;
+}
+
+.error {
+  text-align: center;
+  font-size: 18px;
+  color: #dc2626; /* merah */
+}
+
+/* ====== No Result ====== */
+.no-result {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
