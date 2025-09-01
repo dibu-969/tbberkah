@@ -19,7 +19,7 @@ function DetailProduk() {
     const fetchProduk = async () => {
       try {
         // Gunakan variabel lingkungan dari .env.local
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const API_URL = 'https://tbberkah-vrmx.vercel.app';
         const res = await axios.get(`${API_URL}/api/produk/${id}`);
         const data = res.data;
         
