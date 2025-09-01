@@ -17,6 +17,7 @@ export default function HomePage() {
       try {
         const API_URL = 'https://tbberkah-vrmx.vercel.app';
         const response = await axios.get(`${API_URL}/api/produk`);
+        console.log(response.data); // <--- TAMBAHKAN BARIS INI
 
         setProducts(response.data);
       } catch (err) {
@@ -82,7 +83,7 @@ export default function HomePage() {
                 <img src={item.image_url} alt={item.nama} className="produk-img" />
                 <div className="produk-info">
                   <h3 className="produk-nama">{item.nama}</h3>
-                  <p className="produk-harga">Rp {item.harga?.toLocaleString()}</p>
+                  <p className="produk-Harga">Rp {item.Harga?.toLocaleString()}</p>
                   <span className="produk-detail">Klik untuk lihat detail</span>
                 </div>
               </div>
