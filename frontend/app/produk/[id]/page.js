@@ -15,7 +15,7 @@ function DetailProduk() {
     const fetchProducts = async () => {
       try {
         const API_URL = 'https://tbberkah-vrmx.vercel.app';
-        const response = await axios.get(`${API_URL}/api/users`);
+        const response = await axios.get(`${API_URL}/api/produk`);
 
         setProducts(response.data);
       } catch (err) {
