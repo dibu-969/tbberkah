@@ -1,39 +1,41 @@
+// backend/routes/users.js
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Mongoose model for the 'PRODUK' collection
+const Produk = require('../models/Produk'); // Pastikan path ini benar
 
-// @route   GET /api/users
-// @desc    Mendapatkan semua produk
+// @route   GET api/users
+// @desc    Get all products
 // @access  Public
 router.get('/', async (req, res) => {
-    try {
-        const products = await User.find(); // Change variable name to 'products'
-        res.json(products);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+  // Logika untuk mengambil semua produk
+  try {
+    const produk = await Produk.find({});
+    res.json(produk);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
-// @route   POST /api/users
-// @desc    Menambahkan produk baru
+// @route   GET api/users/:id
+// @desc    Get single product by ID
 // @access  Public
-router.post('/', async (req, res) => {
-    // These properties must match the data in your database
-    const { nama, jenis, harga, image_url } = req.body;
-    try {
-        const newProduct = new User({
-            nama,
-            jenis,
-            harga,
-            image_url
-        });
-        const product = await newProduct.save();
-        res.json(product);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+router.get('/:id', async (req, res) => {
+  try {
+    const produk = await Produk.findById(req.params.id);
+
+    if (!produk) {
+      return res.status(404).json({ msg: 'Produk tidak ditemukan' });
     }
+
+    res.json(produk);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Produk tidak ditemukan' });
+    }
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;

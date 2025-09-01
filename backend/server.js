@@ -15,7 +15,8 @@ app.use(express.json());
 app.options('*', cors()); // Tambahkan baris ini
 
 // Definisikan rute API
-app.use('/api/users', require('./routes/users'));
+// Perbarui baris ini di server.js Anda
+app.use('/api/produk', require('./routes/users'));
 
 const PORT = process.env.PORT || 5000;
 
