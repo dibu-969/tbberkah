@@ -35,12 +35,12 @@ export default function HomePage() {
   const filteredProducts = products.filter((item) => {
     // Use lowercase properties to match the database
     const matchesName = item.nama?.toLowerCase().includes(search.toLowerCase());
-    const matchesJenis = jenis === 'Semua' || item.jenis === jenis;
+    const matchesJenis = jenis === 'Semua' || item.Jenis === jenis;
     return matchesName && matchesJenis;
   });
 
   // Get a list of unique categories from the data
-  const jenisList = ['Semua', ...new Set(products.map((item) => item.jenis))];
+  const jenisList = ['Semua', ...new Set(products.map((item) => item.Jenis))];
 
   if (loading) {
     return <p className="loading">Memuat data...</p>;
@@ -52,7 +52,7 @@ export default function HomePage() {
 
   return (
     <div className="home-container">
-      {/* Search and Filter */}
+      {/* Search dan Filter */}
       <div className="filter-container">
         <input
           type="text"
@@ -73,6 +73,7 @@ export default function HomePage() {
           ))}
         </select>
       </div>
+
 
       {/* Product Grid */}
       <div className="produk-grid">
