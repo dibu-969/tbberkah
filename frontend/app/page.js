@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const API_URL = 'https://tbberkah-9opwitfg9-faqihs-projects-ca31bd55.vercel.app/';
+        const API_URL = 'https://tbberkah-vrmx.vercel.app';
         const response = await axios.get(`${API_URL}/api/produk`);
         console.log(response.data); // <--- TAMBAHKAN BARIS INI
 
