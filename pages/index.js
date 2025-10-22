@@ -1,82 +1,35 @@
-// pages/index.js
+import Link from 'next/link';
+import React from 'react';
 
-import { useState, useEffect } from 'react';
-
-export default function Home() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetch('/api/data')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Gagal mengambil data dari API');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        // Asumsi data.data adalah array produk
-        setItems(data.data); 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Memuat data produk...</div>;
-  if (error) return <div>Terjadi Error: {error}</div>;
-  if (!items || items.length === 0) return <div>Tidak ada produk ditemukan.</div>;
-
+function Beranda() {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Aplikasi Next.js + MongoDB (Data Produk)</h1>
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h1>Selamat Datang di Toko Berkah!</h1>
+      <p>Tekan tombol di bawah untuk melihat daftar produk.</p>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-        {items.map((item) => (
-          <div key={item._id} style={productCardStyle}>
-            {/* Menampilkan Gambar */}
-            {item.image_url && (
-              <img 
-                src={item.image_url} 
-                alt={item.nama} 
-                style={imageStyle}
-                // Jika Anda menggunakan Next.js Image component, gunakan <Image> di sini
-              />
-            )}
-            
-            {/* Menampilkan Nama */}
-            <h3>{item.nama}</h3>
-            
-            {/* Menampilkan Jenis (Jika ada) */}
-            {item.jenis && <p>Jenis: **{item.jenis}**</p>}
-            
-            {/* Menampilkan Harga */}
-            <p style={{ fontWeight: 'bold', color: 'green' }}>
-              Harga: Rp{item.harga ? item.harga.toLocaleString('id-ID') : 'N/A'}
-            </p>
-          </div>
-        ))}
-      </div>
+      {/* ⬇️ PERBAIKAN: Menggunakan <Link> di-style seperti tombol ⬇️ */}
+      <Link 
+        href="/beranda" 
+        style={buttonStyle} // Menerapkan styling tombol langsung ke Link
+      >
+        Lihat Produk Sekarang
+      </Link>
     </div>
   );
 }
 
-// Inline Styles (untuk tampilan sederhana)
-const productCardStyle = {
-  border: '1px solid #ccc',
-  padding: '15px',
-  borderRadius: '8px',
-  boxShadow: '2px 2px 5px rgba(0,0,0,0.1)'
-};
+export default Beranda;
 
-const imageStyle = {
-  width: '100%',
-  height: 'auto',
-  maxHeight: '150px',
-  objectFit: 'contain', // memastikan gambar tidak terdistorsi
-  marginBottom: '10px'
+const buttonStyle = {
+    padding: '10px 20px',
+    fontSize: '18px',
+    backgroundColor: '#0070f3',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginTop: '20px',
+    // Styling tambahan agar <Link> bertingkah seperti tombol
+    textDecoration: 'none', 
+    display: 'inline-block' // Penting agar style padding bekerja
 };
